@@ -9,7 +9,7 @@ function my_Gale_Shap{T<:Int64}(m_prefs::AbstractArray{T, 2}, f_prefs::AbstractA
                 if m_prefs[t, i] == 0
                     m_matched[i] = 0
                 else
-                    if f_matched[m_prefs[t, i]] == 0
+                    if f_matched[m_prefs[t, i]] == 0 && (findnext(f_prefs[:, m_prefs[t, i]], 0, 1) > findnext(f_prefs[:, m_prefs[t, i]], i, 1))
                         f_matched[m_prefs[t, i]] = i
                         m_matched[i] = m_prefs[t, i]
                         elseif (f_matched[m_prefs[t, i]] != i) && (findnext(f_prefs[:, m_prefs[t, i]], f_matched[m_prefs[t, i]], 1) > findnext(f_prefs[:, m_prefs[t, i]], i, 1))
