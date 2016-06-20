@@ -1,4 +1,4 @@
-function suzuki_Gale_Shap{T<:Int64}(m_prefs::AbstractArray{T, 2}, f_prefs::AbstractArray{T, 2})
+function my_Gale_Shap{T<:Int64}(m_prefs::AbstractArray{T, 2}, f_prefs::AbstractArray{T, 2})
     m = size(m_prefs, 2)
     n = size(f_prefs, 2)
     m_matched = zeros(Int64, m)
