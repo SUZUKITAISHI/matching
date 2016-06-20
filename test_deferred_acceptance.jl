@@ -1,7 +1,7 @@
 # Test file for Deferred Acceptance algorithm routine
 
-const file_name = "my_Gale_Shap.jl"
-const function_name = "my_Gale_Shap"
+const file_name = "suzuki_Gale_Shap.jl"
+const function_name = "suzuki_Gale_Shap"
 
 include(file_name)
 const fn = getfield(Main, Symbol(function_name))
