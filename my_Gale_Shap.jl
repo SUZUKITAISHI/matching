@@ -1,38 +1,63 @@
-function my_Gale_Shap{T<:Int64}(m_prefs::AbstractArray{T, 2}, f_prefs::AbstractArray{T, 2})
-    m = size(m_prefs, 2)
-    n = size(f_prefs, 2)
-    m_matched = zeros(Int64, m)
-    f_matched = zeros(Int64, n)
-    m_pool = collect(1:m)
+function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::AbstractArray{T, 2}, caps=ones(T, size(resp_prefs, 2)))
+    m, n = size(prop_prefs, 2), size(resp_prefs, 2)
+    L = sum(caps)
+    prop_matched = zeros(Int64, m)
+    resp_matched = zeros(Int64, L)
+    prop_pool = collect(1:m)
     
-    while length(m_pool) != 0
-        i = pop!(m_pool)
-        
-        for j in m_prefs[:, i]
+    while length(prop_pool) != 0
+        i = pop!(prop_pool)
             
+        for j in prop_prefs[:, i]
             if j == 0
-                m_matched[i] = 0
+                prop_matched[i] = 0
                 break
                 
-            else
-                if findnext(f_prefs[:, j], f_matched[j], 1) > findnext(f_prefs[:, j], i, 1)
-                    if f_matched[j] == 0
-                        m_matched[i] = j
-                        f_matched[j] = i
-                        break
+            elseif j == 1
+                
+                k = 1
+                l = caps[1]
+                for t in k:l
                         
-                    else
-                        push!(m_pool, f_matched[j])
-                        m_matched[i] = j
-                        f_matched[j] = i
-                        break
+                    if findnext(resp_prefs[:, j], resp_matched[t], 1) > findnext(resp_prefs[:, j], i, 1)
+                        if resp_matched[t] == 0
+                            resp_matched[t] = i
+                            prop_matched[i] = j
+                            break
+                                
+                        else
+                            push!(prop_pool, resp_matched[t])
+                            resp_matched[t] = i
+                            prop_matched[i] = j
+                            break
+                        end
                     end
-                else
-                    m_matched[i] = m_matched[i]
-                    f_matched[j] = f_matched[j]
+                        
+                end
+                
+            else
+                k = sum(caps[1]:caps[j-1]) + 1
+                l = sum(caps[1]:caps[j])
+                for t in k:l
+                        
+                if findnext(resp_prefs[:, j], resp_matched[t], 1) > findnext(resp_prefs[:, j], i, 1)
+                        if resp_matched[t] == 0
+                            resp_matched[t] = i
+                            prop_matched[i] = j
+                            break
+                                
+                        else
+                            push!(prop_pool, resp_matched[t])
+                            count = 1
+                            resp_matched[t] = i
+                            prop_matched[i] = j
+                            break
+                        end
+                    end
+                        
                 end
             end
         end
     end
-    return m_matched, f_matched
+    return prop_matched, resp_matched
 end
