@@ -1,4 +1,4 @@
-function my_Gale_Shap{T<:Int64}(prop_prefs::Matrix{Int}, resp_prefs::Matrix{Int}, caps=ones(Int64, size(resp_prefs, 2)))
+function my_Gale_Shap(prop_prefs::Matrix{Int}, resp_prefs::Matrix{Int}, caps=ones(Int64, size(resp_prefs, 2)))
     m = size(prop_prefs, 2)
     n = size(resp_prefs, 2)
     L = sum(caps)
