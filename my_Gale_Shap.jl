@@ -6,8 +6,6 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
     resp_matched = zeros(Int64, L)
     prop_pool = collect(1:m)
     
-    println(prop_matched, resp_matched, prop_pool, caps, 1)
-    
     while length(prop_pool) != 0
         i = pop!(prop_pool)
         
@@ -17,7 +15,6 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                 prop_matched[i] = 0
                 break
                 
-                println(prop_matched, resp_matched, prop_pool, 2)
                 
                 elseif j == 1
                 count = 0
@@ -32,8 +29,7 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                             count = 1
                             break
                             
-                            println(prop_matched, resp_matched, prop_pool, 3)
-                            
+                           
                         else
                             push!(prop_pool, resp_matched[t])
                             resp_matched[t] = i
@@ -41,7 +37,6 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                             count = 1
                             break
                             
-                            println(prop_matched, resp_matched, prop_pool, 4)
                             
                         end
                     else
@@ -49,8 +44,7 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                         prop_matched[i] = prop_matched[i]
                     end
                     
-                    println(prop_matched, resp_matched, prop_pool, 5)
-                    
+                   
                 end
                 if count == 1
                     break
@@ -68,7 +62,6 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                             count = 1
                             break
                             
-                            println(prop_matched, resp_matched, prop_pool, 6)
                             
                         else
                             push!(prop_pool, resp_matched[t])
@@ -77,7 +70,6 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                             count = 1
                             break
                             
-                            println(prop_matched, resp_matched, prop_pool, 7)
                             
                         end
                     else
@@ -85,8 +77,7 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
                         prop_matched[i] = prop_matched[i]
                     end
                     
-                    println(prop_matched, resp_matched, prop_pool, 8)
-                    
+                   
                 end
                 if count == 1
                     break
@@ -94,8 +85,7 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
             end
         end
         
-        println(prop_matched, resp_matched, prop_pool, 9)
-        
+       
     end
     return prop_matched, resp_matched
 end
