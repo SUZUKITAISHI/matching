@@ -1,10 +1,16 @@
-function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::AbstractArray{T, 2}, caps=ones(Int64, size(resp_prefs, 2)))
+function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::AbstractArray{T, 2}, caps::Vector{Int})
     m = size(prop_prefs, 2)
     n = size(resp_prefs, 2)
     L = sum(caps)
     prop_matched = zeros(Int64, m)
     resp_matched = zeros(Int64, L)
     prop_pool = collect(1:m)
+    
+    indptr = Array(Int, n+1)
+    indptr[1] = 1
+    for i in 1:n
+        indptr[i+1] = indptr[i] + caps[i]
+    end
     
     while length(prop_pool) != 0
         i = pop!(prop_pool)
@@ -87,5 +93,11 @@ function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::Abs
         
        
     end
+    return prop_matched, resp_matched, indptr
+end
+
+function my_Gale_Shap{T<:Int64}(prop_prefs::AbstractArray{T, 2}, resp_prefs::AbstractArray{T, 2})
+    caps = ones(Int, size(resp_prefs, 2))
+    prop_matched, resp_matched, indptr = my_Gale_Shap(prop_prefs, resp_prefs, caps)
     return prop_matched, resp_matched
 end
